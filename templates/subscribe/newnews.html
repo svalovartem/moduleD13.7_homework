@@ -1,0 +1,17 @@
+
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Title</title>
+    </head>
+    <body>
+        <div >
+             <a href="http://127.0.0.1:8000/board/news/{{pk}}"><h3> {{ news_title|censor }} </h3></a>
+            <p> {{ news_text|truncatechars:50|censor }} </p>
+        </div>
+    </body>
+</html>

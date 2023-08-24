@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Удаление новости
+{% endblock title %}
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if is_staff %}
+            <h1 class="col-lg-12 text-center">Удаление новости</h1>
+            <br>
+            <p> Вы действительно хотите удалить данную новость? </p>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Подтвердить"></form>
+        {% else %}
+            <p>Только администрация сайта может удалять новости. Пожалуйста, войдите в свой аккаунт администратора.</p>
+        {% endif %}
+    {% else %}
+        <p>Вы не авторизованы! Пожалуйста, авторизуйтесь или зарегистрируйтесь.</p>
+    {% endif %}
+
+
+{% endblock content %}

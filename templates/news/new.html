@@ -1,0 +1,23 @@
+
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+{{ new.news_title|censor }}
+{% endblock title %}
+
+
+{% block content %}
+    {% if new %}
+        <h3 class="col-lg-12 text-center"> {{ new.news_title|censor }} </h3>
+        <p> Дата публикации: {{ new.create_time.date|date:'d-M-Y' }} {{ new.create_time.time|time:'H:i' }} </p>
+        <p> Автор: {{ new.news_author.username }} </p>
+        <p>{{ new.news_text|censor|safe }}</p>
+
+        {% if is_staff %}
+            <p><a href="{% url 'editnews' new.id %}"><button>Редактировать</button></a> <a href="{% url 'deletenews' new.id %}"><button>Удалить</button></a></p>
+        {% endif %}
+    {% else %}
+                <h2>Такой новости нет!</h2>
+    {% endif %}
+{% endblock content %}

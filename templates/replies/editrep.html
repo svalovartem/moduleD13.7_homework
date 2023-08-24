@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Редактировать отклик
+{% endblock title %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1 class="col-lg-12 text-center">Редактировать отклик</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <br>
+        <p> {{ form.reply_text.label }}:<br> {{ form.reply_text }} </p>
+
+        <p><br><input type="submit" value="Редактировать отклик"></p>
+    </form>
+{% else %}
+    <p>Вы не авторизованы! Пожалуйста, авторизуйтесь или зарегистрируйтесь.</p>
+{% endif %}
+{% endblock content %}

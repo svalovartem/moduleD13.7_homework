@@ -1,0 +1,70 @@
+{% load static %}
+{% load account %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block head_title %}{% endblock head_title %} | MMORPG</title>
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+   <body>
+   {% block body %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">The Steel MMORPG</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white" href="/board/">Доска объявлений</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link text-white" href="#!">Личный кабинет</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'account_logout' %}">Выйти</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'account_login' %}">Вход</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'account_signup' %}">Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="bg-dark min-vh-100 w-15" id="sidebar-wrapper">
+                <div class="list-group list-group-flush">
+                    {% if user.is_authenticated %}
+                    <p class="text-white p-3">Добро пожаловать, {{ request.user.username }}!</p>
+                    <a class="list-group-item list-group-item-action bg-dark text-white p-3" href="#!">Мои объявления</a>
+                    <a class="list-group-item list-group-item-action bg-dark text-white p-3" href="{% url 'create' %}">Добавить объявление</a>
+                    <a class="list-group-item list-group-item-action bg-dark text-white p-3" href="#!">Мои отклики</a>
+                    {% endif %}
+                    <a class="list-group-item list-group-item-action bg-dark text-white p-3" href="#!">Новости</a>
+                    <a class="list-group-item list-group-item-action bg-dark text-white p-3" href="{% url 'search' %}">Расширенный поиск</a>
+                    <a class="list-group-item list-group-item-action bg-dark text-white p-3" href="/contacts/">Обратная связь</a>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div  class="min-vh-100" id="page-content-wrapper">
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <br>
+                    {% block content %}
+
+                    {% endblock content %}
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'vendor/jquery/jquery.slim.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   {% endblock body %}
+   {% block extra_body %}
+   {% endblock extra_body %}
+    </body>
+</html>

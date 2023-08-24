@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} Личный кабинет {{request.user.username}} {% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1 class="col-lg-12 text-center">Личный кабинет {{request.user.username}}</h1>
+    <br>
+    <h4>Персональная информация</h4>
+    <p>Имя пользователя: {{request.user.username}}</p>
+    <p>Email: {{request.user.email}}</p>
+    <br>
+    <a href="{% url 'profilelist' %}"><button>Мои объявления</button></a>
+    <a href="{% url 'create' %}"><button>Добавить объявление</button></a>
+{% else %}
+    <p>Вы не авторизованы! Пожалуйста, авторизуйтесь или зарегистрируйтесь.</p>
+{% endif %}
+
+
+
+
+{% endblock %}

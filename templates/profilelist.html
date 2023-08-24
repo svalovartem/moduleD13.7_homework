@@ -1,0 +1,39 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %} Объявления {{request.user.username}} {% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1 class="col-lg-12 text-center">Объявления {{request.user.username}}</h1>
+    <br>
+    <a href="{% url 'create' %}"><button>Добавить объявление</button></a>
+    {% if self_bul %}
+        <h4><br>Мои объявления</h4>
+        <form method="GET">
+            <p> Поиск:<br> {{ filter.form }} </p>
+
+            <input type="submit" value="Найти">
+        </form>
+        {% if filter.qs %}
+        <ol>
+
+        {% for bulletin in filter.qs %}
+        {% if bulletin in self_bul %}
+            <li><p><a href="{% url 'bulletin' bulletin.pk %}">{{ bulletin.bul_title|censor }}</a> <br> Категория: {{ bulletin.category }}</p>
+            <p>Дата публикации: {{ bulletin.create_time.date|date:'d-M-Y' }} {{ bulletin.create_time.time|time:'H:i' }}</p>
+            <p>Превью: {{ bulletin.bul_short_description|censor }}</p>
+            <p><a href="{% url 'edit' bulletin.pk %}"><button>Редактировать</button></a> <a href="{% url 'delete' bulletin.pk %}"><button>Удалить</button></a></p>
+            </li>
+        {% endif %}
+        {% endfor %}
+        </ol>
+        {% endif %}
+    {% else %}
+        <h2>У Вас пока нет объявлений</h2>
+    {% endif %}
+{% else %}
+    <p>Вы не авторизованы! Пожалуйста, авторизуйтесь или зарегистрируйтесь.</p>
+{% endif %}
+
+
+{% endblock %}

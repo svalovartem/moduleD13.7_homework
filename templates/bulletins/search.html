@@ -1,0 +1,35 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %} Расширенный поиск {% endblock title %}
+
+{% block content %}
+<h1 class="col-lg-12 text-center">Расширенный поиск</h1>
+
+<form method="GET">
+    <p> Поиск:<br> {{ filter.form.as_p }} </p>
+
+    <input type="submit" value="Найти">
+</form>
+<br>
+
+    {% if filter.qs %}
+        <ol>
+        {% for bulletin in filter.qs %}
+            <li><p><a href="{% url 'bulletin' bulletin.pk %}">{{ bulletin.bul_title|censor }}</a></p>
+                <p>Дата публикации: {{ bulletin.create_time.date|date:'d M Y' }} {{ bulletin.create_time.time|time:'H:i' }}</p>
+                <p>Категория: {{ bulletin.category }}
+                <br>Автор: {{ bulletin.bul_author.username }}</p>
+                <p>Превью: {{ bulletin.bul_short_description|censor }}</p>
+
+            {% if is_staff %}
+                <p><a href="{% url 'edit' bulletin.id %}"><button>Редактировать</button></a> <a href="{% url 'delete' bulletin.id %}"><button>Удалить</button></a></p>
+            {% endif %}
+            </li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <h2>Объявлений нет!</h2>
+    {% endif %}
+
+
+{% endblock content %}

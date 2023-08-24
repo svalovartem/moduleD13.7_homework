@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Удаление объявления
+{% endblock title %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1 class="col-lg-12 text-center">Удаление объявления</h1>
+
+    <br>
+    <p> Вы действительно хотите удалить данное объявление? </p>
+    <form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Подтвердить"></form>
+{% else %}
+    <p>Вы не авторизованы! Пожалуйста, авторизуйтесь или зарегистрируйтесь.</p>
+{% endif %}
+
+
+{% endblock content %}

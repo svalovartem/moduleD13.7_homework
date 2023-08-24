@@ -1,0 +1,46 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %} Новости портала {% endblock title %}
+
+{% block content %}
+<h1 class="col-lg-12 text-center">Новости портала</h1>
+
+<form method="GET">
+    <p> Поиск:<br> {{ filter.form }} </p>
+
+    <p><input type="submit" value="Найти"></p>
+</form>
+<br>
+
+{% if is_staff %}
+    <p><a href="{% url 'createnews' %}"><button>Добавить новость</button></a></p>
+{% else %}
+    {% if is_subscribed %}
+        <p>
+            Вы уже подписаны на новостную рассылку. Хотите <a href="{% url 'news_unsubscribe' %}">отписаться</a>?
+        </p>
+    {% else %}
+        <p>
+        <a href="{% url 'news_subscribe' %}">Подписаться</a> на новостную рассылку.
+        </p>
+    {% endif %}
+{% endif %}
+{% if filter.qs %}
+    <ol>
+    {% for new in filter.qs %}
+        <li>
+            <p><a href="{% url 'new' new.pk %}">{{ new.news_title|censor }}</a></p>
+                <p>Дата публикации: {{ new.create_time.date|date:'d M Y' }} {{ new.create_time.time|time:'H:i' }}</p>
+                <p>Автор: {{ new.news_author.username }}</p>
+                <p>Превью: {{ new.news_short_description|censor }}</p>
+            {% if is_staff %}
+                <p><a href="{% url 'editnews' new.id %}"><button>Редактировать</button></a> <a href="{% url 'deletenews' new.id %}"><button>Удалить</button></a></p>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ol>
+{% else %}
+    <h2>Новостей нет!</h2>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Создание новости
+{% endblock title %}
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if is_staff %}
+            <h1 class="col-lg-12 text-center">Добавить новость</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <br>
+                {{ form.media }}
+                <p> {{ form.news_title.label }}:<br> {{ form.news_title }} </p>
+                <p> {{ form.news_short_description.label }}:<br> {{ form.news_short_description }} </p>
+                <p> {{ form.news_text.label }}:<br> {{ form.news_text }} </p>
+
+                <p><br><input type="submit" value="Добавить новость"></p>
+            </form>
+        {% else %}
+            <p>Только администрация сайта может добавлять новости. Пожалуйста, войдите в свой аккаунт администратора.</p>
+            <p><a href="{% url 'account_login' %}"><button>Войти</button></a></p>
+        {% endif %}
+    {% else %}
+        <p>Вы не авторизованы! Пожалуйста, авторизуйтесь или зарегистрируйтесь.</p>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Добавить объявление
+{% endblock title %}
+
+
+{% block content %}
+
+    <h1 class="col-lg-12 text-center">Добавить новое объявление</h1>
+    {% if user.is_authenticated %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <br>
+        {{ form.media }}
+        <p> {{ form.bul_title.label }}:<br> {{ form.bul_title }} </p>
+        <p> {{ form.category.label }}:<br> {{ form.category }} </p>
+        <p> {{ form.bul_short_description.label }}:<br> {{ form.bul_short_description }} </p>
+        <p> {{ form.bul_text.label }}:<br> {{ form.bul_text }} </p>
+
+        <p><br><input type="submit" value="Добавить объявление"></p>
+    </form>
+    {% else %}
+    <p>Неавторизованные пользователи не могут создавать объявления. Пожалуйста, авторизуйтесь или зарегистрируйтесь</p>
+    <p><a href="{% url 'account_login' %}"><button>Войти</button></a> <a href="{% url 'account_signup' %}"><button>Регистрироваться</button></a></p>
+    {% endif %}
+
+
+
+{% endblock content %}
